@@ -8,23 +8,24 @@ import org.junit.Test;
 
 
 public class JsonSerializerUnitTest {
-
     @Test
-    public void givenObjectNotSerializedThenExceptionThrown() throws JsonSerializationException {
-        Object object = new Object();
+    public void givenObjectSerializedThenReturned() throws JsonSerializationException {
+        Person person = new Person("john", "doe", "18");
         ObjectToJsonConverter serializer = new ObjectToJsonConverter();
-        assertThrows(JsonSerializationException.class, () -> {
-            serializer.convertToJson(object);
-        });
+        String jsonString = serializer.convertToJson(person);
+        assertEquals("{\"personAge\":\"18\",\"firstName\":\"John\"," +
+                        "\"lastName\":\"Doe\"}",
+                jsonString);
     }
 
     @Test
-    public void givenObjectSerializedThenTrueReturned() throws JsonSerializationException {
-        Person person = new Person("soufiane", "cheouati", "34");
+    public void throwJSONSerializationException() throws JsonSerializationException{
+        // Person
+        // Object to null
         ObjectToJsonConverter serializer = new ObjectToJsonConverter();
-        String jsonString = serializer.convertToJson(person);
-        System.out.println(jsonString);
-        assertEquals("{\"personAge\":\"34\",\"firstName\":\"Soufiane\",\"lastName\":\"Cheouati\"}", jsonString);
+        assertThrows(JsonSerializationException.class, () -> {
+            serializer.convertToJson(null);
+        });
     }
 }
 
